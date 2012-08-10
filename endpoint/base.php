@@ -243,6 +243,19 @@ abstract class endpoint_base {
         $file_contents = $this->replace_static_variables($file_contents);
         $file_contents = $this->parse_config_values($file_contents);
 
+        // process twig
+        global $twigLoader,$twig;
+        if(!isset($this->twig))
+        {
+	        $twigLoader = new Twig_Loader_String();
+	        $this->{'twig'} = new Twig_Environment($twigLoader);
+	    }
+	    
+	    $file_contents = $this->twig->render($file_contents, $this->settings);
+	    
+	    // debug
+	    // $file_contents = print_r($this->settings,true) . "\n\n" . $file_contents;
+
         return $file_contents;
     }
 
