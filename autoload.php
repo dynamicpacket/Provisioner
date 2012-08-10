@@ -42,7 +42,4 @@ ProvisionerConfig::setup();
 // load twig
 //  - use some globals
 if(!class_exists('Twig_Autoloader'))
-{
-	require_once dirname(__FILE__).'/contrib/Twig/Autoloader.php';
-	Twig_Autoloader::register();
-}
+	require_once dirname(__FILE__).'/contrib/twig.min.php';
