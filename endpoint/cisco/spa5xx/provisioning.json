@@ -12,7 +12,81 @@
                                 "default_value": false,
                                 "description": "GZIP Compress Configuration",
                                 "type": "checkbox"
-                            }
+                            }							
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "Timezone",
+                "subcategory": [
+                    {
+                        "name": "Timezone Settings",
+                        "item": [
+							{
+								"variable":"$tz_gmtoffset",
+								"default_value":"GMT-5:00",
+								"description":"Timezone (GMT)",
+								"type":"input"
+							},
+							{
+							"variable":"$tz_dst_enable",
+							"default_value":"Yes",
+							"description":"DST Enable",
+							"type":"radio",
+							"data":[
+							  {
+							    "text":"Yes",
+							    "value":"Yes"
+							  },
+							  {
+							    "text":"No",
+							    "value":"No"
+							  }
+							  ]
+							},
+							{
+								"variable":"$tz_dst_rule",
+								"default_value":"start=3/8/7/02:0:0;end=11/1/7/02:0:0;save=1",
+								"description":"DST Rule",
+								"type":"input"
+							}							
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "Debug",
+                "subcategory": [
+                    {
+                        "name": "Debug Settings",
+                        "item": [
+							{
+								"variable":"$syslog_server",
+								"default_value":"",
+								"description":"Syslog Server",
+								"type":"input"
+							},
+							{
+							"variable":"$syslog_level",
+							"default_value":"3",
+							"description":"Log Level",
+							"type":"list",
+							"data":[
+							  {
+							    "text":"1",
+							    "value":"1"
+							  },
+							  {
+							    "text":"2",
+							    "value":"2"
+							  },
+							  {
+							    "text":"3",
+							    "value":"3"
+							  }
+							  ]
+							}							
                         ]
                     }
                 ]

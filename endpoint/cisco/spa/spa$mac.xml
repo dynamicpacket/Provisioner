@@ -7,7 +7,7 @@
 
         <!-- Line Registration Information -->
         <Text_Logo group="Phone/General">{$text_logo}</Text_Logo>
-        <Station_Name group="Phone/General">{$station_name}</Station_Name>
+        <Station_Name group="Phone/General">{$displayname.line.1}</Station_Name>
         <Voice_Mail_Number group="Phone/General" ua="na">{$voicemail_extension}</Voice_Mail_Number>
         {line_loop}
         <Display_Name_{$line}_ ua="na">{$displaynameline}</Display_Name_{$line}_>
@@ -31,7 +31,8 @@
         <Ans_Call_Without_Reg_{$line}_ ua="na">No</Ans_Call_Without_Reg_{$line}_>
         <Use_DNS_SRV_{$line}_ ua="rw">No</Use_DNS_SRV_{$line}_>
         <Proxy_Fallback_Intvl_{$line}_ ua="ro">120</Proxy_Fallback_Intvl_{$line}_>
-        <Proxy_Redundancy_Method_{$line}_ ua="ro">Normal</Proxy_Redundancy_Method_{$line}_>
+        <Proxy_Redundancy_Method_{$line}_ ua="ro">Normal</Proxy_Redundancy_Method_{$line}_>  
+		<DTMF_Tx_Method_{$line}_ ua="na">AVT</DTMF_Tx_Method_{$line}_>
         {/line_loop}
 
 

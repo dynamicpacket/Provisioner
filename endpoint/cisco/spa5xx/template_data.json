@@ -76,6 +76,34 @@
                 ]
               },
               {
+                "variable":"$enable_srtp",
+                "default_value":"No",
+                "description":"Enable SRTP",
+                "type":"radio",
+                "data":[
+                  {
+                    "text":"Yes",
+                    "value":"Yes"
+                  },
+                  {
+                    "text":"No",
+                    "value":"No"
+                  }
+                ]
+              },
+              {
+                "variable":"$srtp_cert",
+                "default_value":"",
+                "description":"SRTP Mini Cert",
+                "type":"input"
+              },
+              {
+                "variable":"$srtp_key",
+                "default_value":"",
+                "description":"SRTP Key",
+                "type":"input"
+              },
+              {
                 "variable":"$webserver_port",
                 "default_value":"80",
                 "description":"Webserver Port",
@@ -183,6 +211,10 @@
                   {
                     "text":"BMP Picture",
                     "value":"BMP Picture"
+                  },
+                  {
+                    "text":"Download BMP Picture",
+                    "value":"Download BMP Picture"
                   }
                 ]
               },
@@ -199,6 +231,10 @@
                   {
                     "text":"BMP Picture",
                     "value":"BMP Picture"
+                  },
+                  {
+                    "text":"Download BMP Picture",
+                    "value":"Download BMP Picture"
                   }
                 ]
               },

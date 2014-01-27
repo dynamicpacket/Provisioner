@@ -9,6 +9,8 @@
  */
 class endpoint_cisco_spa5xx_phone extends endpoint_cisco_base {
 
+    protected $use_system_dst = FALSE; //Use System DST correction if detected
+
     public $family_line = 'spa5xx';
 
     function parse_lines_hook($line_data,$line_total) {
@@ -47,7 +49,7 @@ class endpoint_cisco_spa5xx_phone extends endpoint_cisco_base {
                 $line_data['secret'] = 'n/a';
                 $line_data['blf_ext_type'] = "Disabled";
                 $line_data['share_call_appearance'] = "shared";
-                $line_data['extended_function'] = "fnc=sd;sub=";
+                $line_data['extended_function'] = "fnc=sd;ext=";
                 $line_data['extended_function'] .= preg_match('/;.*=.*@.*$/i', $this->settings['loops']['lineops'][$line]['blfext']) ? $this->settings['loops']['lineops'][$line]['blfext'] : $this->settings['loops']['lineops'][$line]['blfext'] . "@" . $this->settings['line'][0]['server_host'];
             } elseif ($this->settings['loops']['lineops'][$line]['keytype'] == "disabled") {
                 $line_data['blf_ext_type'] = "Disabled";
@@ -107,6 +109,7 @@ class endpoint_cisco_spa5xx_phone extends endpoint_cisco_base {
         
         if(isset($this->settings['dateformat'])) {
             switch($this->settings['dateformat']) {
+                case "middle-endian":
                 case "little-endian":
                     $this->settings['dateformat'] = 'month/day';
                     break;
@@ -133,12 +136,12 @@ class endpoint_cisco_spa5xx_phone extends endpoint_cisco_base {
                     if ($this->settings['loops']['unit1'][$key]['keytype'] == 'blf') {
                         $temp_ext = $this->settings['loops']['unit1'][$key]['data'];
                         $this->settings['loops']['unit1'][$key]['data'] = "fnc=blf+sd;sub=";
-                        $this->settings['loops']['unit1'][$key]['data'] .= preg_match('/;.*=.*@.*$/i', $temp_ext) ? $temp_ext : $temp_ext . "@" . $this->settings['line'][0]['server_host'];
+                        $this->settings['loops']['unit1'][$key]['data'] .= preg_match('/;.*=.*@.*$/i', $temp_ext) ? $temp_ext : $temp_ext . "@" . '$PROXY';
                     }
                     if ($this->settings['loops']['unit1'][$key]['keytype'] == 'speed') {
                         $temp_ext = $this->settings['loops']['unit1'][$key]['data'];
-                        $this->settings['loops']['unit1'][$key]['data'] = "fnc=sd;sub=";
-                        $this->settings['loops']['unit1'][$key]['data'] .= preg_match('/;.*=.*@.*$/i', $temp_ext) ? $temp_ext : $temp_ext . "@" . $this->settings['line'][0]['server_host'];
+                        $this->settings['loops']['unit1'][$key]['data'] = "fnc=sd;ext=";
+                        $this->settings['loops']['unit1'][$key]['data'] .= preg_match('/;.*=.*@.*$/i', $temp_ext) ? $temp_ext : $temp_ext . "@" . '$PROXY';
                     }
                     if ($this->settings['loops']['unit1'][$key]['keytype'] == 'xml') {
                         $temp_ext = $this->settings['loops']['unit1'][$key]['data'];
@@ -154,12 +157,12 @@ class endpoint_cisco_spa5xx_phone extends endpoint_cisco_base {
                     if ($this->settings['loops']['unit2'][$key]['keytype'] == 'blf') {
                         $temp_ext = $this->settings['loops']['unit2'][$key]['data'];
                         $this->settings['loops']['unit2'][$key]['data'] = "fnc=blf+sd;sub=";
-                        $this->settings['loops']['unit2'][$key]['data'] .= preg_match('/;.*=.*@.*$/i', $temp_ext) ? $temp_ext : $temp_ext . "@" . $this->settings['line'][0]['server_host'];
+                        $this->settings['loops']['unit2'][$key]['data'] .= preg_match('/;.*=.*@.*$/i', $temp_ext) ? $temp_ext : $temp_ext . "@" . '$PROXY';
                     }
                     if ($this->settings['loops']['unit2'][$key]['keytype'] == 'speed') {
                         $temp_ext = $this->settings['loops']['unit2'][$key]['data'];
-                        $this->settings['loops']['unit2'][$key]['data'] = "fnc=sd;sub=";
-                        $this->settings['loops']['unit2'][$key]['data'] .= preg_match('/;.*=.*@.*$/i', $temp_ext) ? $temp_ext : $temp_ext . "@" . $this->settings['line'][0]['server_host'];
+                        $this->settings['loops']['unit2'][$key]['data'] = "fnc=sd;ext=";
+                        $this->settings['loops']['unit2'][$key]['data'] .= preg_match('/;.*=.*@.*$/i', $temp_ext) ? $temp_ext : $temp_ext . "@" . '$PROXY';
                     }
                     if ($this->settings['loops']['unit2'][$key]['keytype'] == 'xml') {
                         $temp_ext = $this->settings['loops']['unit2'][$key]['data'];

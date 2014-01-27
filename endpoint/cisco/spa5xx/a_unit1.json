@@ -40,6 +40,12 @@
                       "description":"BLF\/Speed Dial\/XML {$count} Extension",
                       "type":"input"
                     },
+					{
+                      "variable":"$unit1_label",
+                      "default_value":"",
+                      "description":"BLF\/Speed Dial\/XML {$count} Label",
+                      "type":"input"
+                    },
                     {
                       "type":"break"
                     }

@@ -11,14 +11,26 @@
 	<Select_Logo ua="na">{$logo_type}</Select_Logo>
 	<Select_Background_Picture ua="ro">{$background_type}</Select_Background_Picture>
 	<BMP_Picture_Download_URL ua="ro">{$picture_url}</BMP_Picture_Download_URL>
-	<Station_Name group="Phone/General">{$station_name}</Station_Name>
+	<Station_Name group="Phone/General">{$displayname.line.1}</Station_Name>
 	<Voice_Mail_Number group="Phone/General">{$voicemail_extension}</Voice_Mail_Number>
 
+	<!-- TLS / SRTP Information -->
+	<SRTP_Method ua="na">s-descriptor</SRTP_Method> <!-- options: x-sipura/s-descriptor -->
+  	<Secure_Call_Serv group="Phone/Supplementary_Services">{$enable_srtp|No}</Secure_Call_Serv>
+  	<Secure_Call_Setting group="User/Supplementary_Services">{$enable_srtp|No}</Secure_Call_Setting>
+  	
 	<!-- Line Registration Information -->
 	{line_loop}
-	<Display_Name_{$line}_ group="SIP/SIP_Parameters" ua="na">{$displaynameline}</Display_Name_{$line}_>
+	<Display_Name_{$line}_ group="SIP/SIP_Parameters" ua="na"></Display_Name_{$line}_>
 	<!-- If BLF then set this to the BLF -->
-	<Short_Name_{$line}_ group="Phone/Line_Key_{$line}" ua="na">{$short_name}</Short_Name_{$line}_> 
+	<Short_Name_{$line}_ group="Phone/Line_Key_{$line}" ua="na"></Short_Name_{$line}_> 
+	<Short_Name_2_ group="Phone/Line_Key_2" ua="na"></Short_Name_2_> 
+	<Short_Name_3_ group="Phone/Line_Key_3" ua="na"></Short_Name_3_> 
+	<Short_Name_4_ group="Phone/Line_Key_4" ua="na"></Short_Name_4_>
+	<Short_Name_5_ group="Phone/Line_Key_5" ua="na"></Short_Name_5_>
+	<Short_Name_6_ group="Phone/Line_Key_6" ua="na"></Short_Name_6_>
+	<Short_Name_7_ group="Phone/Line_Key_7" ua="na"></Short_Name_7_>
+	<Short_Name_8_ group="Phone/Line_Key_8" ua="na"></Short_Name_8_>	
 	<User_ID_{$line}_ ua="na">{$username}</User_ID_{$line}_>
 	<Password_{$line}_ ua="na">{$secret}</Password_{$line}_>
 	<!-- Below set to disabled for BLF -->
@@ -28,6 +40,7 @@
 	<!-- this changes how the button works. If it's set when the phone isn't on blf then the button turns orange. so we probably need to remove this normally.-->
 	<Extended_Function_{$line}_ group="Phone/Line_Key_{$line}">{$extended_function}</Extended_Function_{$line}_>
 	<Dial_Plan_{$line}_ ua="na">{$dial_plan}</Dial_Plan_{$line}_>
+	<SIP_Transport_{$line}_ ua="na">{$transport}</SIP_Transport_{$line}_> <!-- options: UDP/TCP/TLS -->
 	<SIP_Port_{$line}_ group="Ext_{$line}/SIP_Settings">{$server_port}</SIP_Port_{$line}_>
 	<Register_Expires_{$line}_ group="Ext_{$line}/Proxy_and_Registration">{$server_expires|3600}</Register_Expires_{$line}_>
 	<Ans_Call_Without_Reg_{$line}_ ua="na">{$answer_call_without_reg|No}</Ans_Call_Without_Reg_{$line}_>
@@ -37,12 +50,14 @@
 	<Use_Pref_Codec_Only_{$line}_ group="Ext_{$line}/Audio_Configuration">No</Use_Pref_Codec_Only_{$line}_>
 	<Second_Preferred_Codec_{$line}_ group="Ext_{$line}/Audio_Configuration">{$second_audio_codec}</Second_Preferred_Codec_{$line}_>
 	<Third_Preferred_Codec_{$line}_ group="Ext_{$line}/Audio_Configuration">{$third_audio_codec}</Third_Preferred_Codec_{$line}_>
+	<DTMF_Tx_Method_{$line}_ ua="na">INFO</DTMF_Tx_Method_{$line}_>
 	
 	<!-- Proxy Information -->
-	<Proxy_{$line}_ group="Ext_{$line}/Proxy_and_Registration">{$server_host}</Proxy_{$line}_>
+	<Proxy_{$line}_ group="Ext_{$line}/Proxy_and_Registration">{$server_host}:{$server_port|5060}</Proxy_{$line}_>
+	<Alternate_Proxy_{$line}_ ua="na">{$server_host}:{$server_port|5060}</Alternate_Proxy_1_>
 	<Use_Outbound_Proxy_{$line}_ ua="na">{$use_outbound_p|No}</Use_Outbound_Proxy_{$line}_>
 	<Outbound_Proxy_{$line}_ ua="na">{$outbound_proxy_host}</Outbound_Proxy_{$line}_>
-	<Proxy_Fallback_Intvl_{$line}_ ua="ro">{$proxy_fallback_intvl|3600}</Proxy_Fallback_Intvl_{$line}_>
+	<Proxy_Fallback_Intvl_{$line}_ ua="ro">{$proxy_fallback_intvl|300}</Proxy_Fallback_Intvl_{$line}_>
 	<Proxy_Redundancy_Method_{$line}_ ua="ro">{$proxy_redundancy_method|Normal}</Proxy_Redundancy_Method_{$line}_>
 	
 	<!-- DNS SRV Information -->
@@ -52,6 +67,10 @@
 	<!-- NAT -->
 	<NAT_Mapping_Enable_{$line}_ group="Ext_{$line}/NAT_Settings">{$nat_mapping_enabled|Yes}</NAT_Mapping_Enable_{$line}_>
 	<NAT_Keep_Alive_Enable_{$line}_ group="Ext_{$line}/NAT_Settings">{$nat_keep_alive_enabled|Yes}</NAT_Keep_Alive_Enable_{$line}_>
+	
+	<!-- SRTP -->
+	<Mini_Certificate_{$line}_ ua="na">{$srtp_cert}</Mini_Certificate_{$line}_>
+	<SRTP_Private_Key_{$line}_ ua="na">{$srtp_key}</SRTP_Private_Key_{$line}_>
 	{/line_loop}
 
 	<!-- Registration Settings -->
@@ -87,10 +106,10 @@
 	 <Enable_CDP group="System/VLAN_Settings">{$enable_cdp|No}</Enable_CDP>
 
 	 <!-- Timezone Stuff -->
-	 <Primary_NTP_Server ua="na">{$ntp}</Primary_NTP_Server>
-	 <Time_Zone  ua="na">{$timezone}</Time_Zone>
-	 <Daylight_Saving_Time_Rule ua="na">start=3/8/7/02:0:0;end=11/1/7/02:0:0;save=1</Daylight_Saving_Time_Rule>
-	 <Daylight_Saving_Time_Enable group="Regional/Miscellaneous">Yes</Daylight_Saving_Time_Enable>
+	 <Primary_NTP_Server ua="na">us.pool.ntp.org</Primary_NTP_Server>
+	 <Time_Zone group="na">{$tz_gmtoffset}</Time_Zone>
+	 <Daylight_Saving_Time_Rule ua="na">{$tz_dst_rule}</Daylight_Saving_Time_Rule>
+	 <Daylight_Saving_Time_Enable group="Regional/Miscellaneous">{$tz_dst_enable}</Daylight_Saving_Time_Enable>
 	 <Date_Format>{$dateformat}</Date_Format>
 	 <Time_Format>{$timeformat}</Time_Format>
 
@@ -117,8 +136,8 @@
 	 <Block_ANC_Deact_Code> </Block_ANC_Deact_Code>
 	 <DND_Act_Code> </DND_Act_Code>
 	 <DND_Deact_Code> </DND_Deact_Code>
-	 <Secure_All_Call_Act_Code> </Secure_All_Call_Act_Code>
-	 <Secure_No_Call_Act_Code> </Secure_No_Call_Act_Code>
+	 <Secure_All_Call_Act_Code>*16</Secure_All_Call_Act_Code>
+	 <Secure_No_Call_Act_Code>*17</Secure_No_Call_Act_Code>
 	 <Secure_One_Call_Act_Code> </Secure_One_Call_Act_Code>
 	 <Secure_One_Call_Deact_Code> </Secure_One_Call_Deact_Code>
 	 <Paging_Code ua="na">{$page_code}</Paging_Code>
@@ -131,7 +150,7 @@
 
 	<!-- Debug Information -->
 	<Syslog_Server group="System/Optional_Network_Configuration">{$syslog_server}</Syslog_Server>
-	<Debug_Level group="System/Optional_Network_Configuration">3</Debug_Level>
+	<Debug_Level group="System/Optional_Network_Configuration">{$syslog_level}</Debug_Level>
 	<Debug_Server group="System/Optional_Network_Configuration">{$syslog_server}</Debug_Server>
 
 	<!-- Speed Dials -->
@@ -143,6 +162,60 @@
 	<Speed_Dial_7 ua="rw">{$speed_dial_7}</Speed_Dial_7>
 	<Speed_Dial_8 ua="rw">{$speed_dial_8}</Speed_Dial_8>
 	<Speed_Dial_9 ua="rw">{$speed_dial_9}</Speed_Dial_9>
+	
+	<!--RMOD BEGIN PROG KEYS-->
+	  <Text_Message ua="rw">Yes</Text_Message>
+	  <Text_Message_From_3rd_Party ua="rw">Yes</Text_Message_From_3rd_Party>
+	  <BXfer_On_Speed_Dial_Enable group="Attendant_Console/General">No</BXfer_On_Speed_Dial_Enable>
+	  <!-- Supplementary Services -->
+	<Default_Ring__1__ ua="na">10</Default_Ring__1__>
+	<Default_Ring__2__ ua="na">10</Default_Ring__2__>
+	<Default_Ring__3__ ua="na">10</Default_Ring__3__>
+	<Default_Ring__4__ ua="na">10</Default_Ring__4__>
+	<Auto_Ans_Page_On_Active_Call_1_ ua="na">No</Auto_Ans_Page_On_Active_Call_1_>
+	<Auto_Ans_Page_On_Active_Call_2_ ua="na">No</Auto_Ans_Page_On_Active_Call_2_>
+	<Auto_Ans_Page_On_Active_Call_3_ ua="na">No</Auto_Ans_Page_On_Active_Call_3_>
+	<Auto_Ans_Page_On_Active_Call_4_ ua="na">No</Auto_Ans_Page_On_Active_Call_4_>
+	<Screen_Saver_Enable ua="rw">No</Screen_Saver_Enable>
+	<Screen_Saver_Wait ua="rw">300</Screen_Saver_Wait>
+	<Screen_Saver_Icon ua="rw">Background Picture</Screen_Saver_Icon> <!-- options: StationTime/Lock/Phone/DateTime/Background Picture -->
+
+	<Conference_Serv ua="na">Yes</Conference_Serv>
+  	<Attn_Transfer_Serv ua="na">Yes</Attn_Transfer_Serv>
+  	<Blind_Transfer_Serv ua="na">Yes</Blind_Transfer_Serv>
+  	<DND_Serv ua="na">No</DND_Serv>
+  	<Block_ANC_Serv ua="na">Yes</Block_ANC_Serv>
+ 	<Call_Back_Serv ua="na">No</Call_Back_Serv>
+  	<Block_CID_Serv ua="na">No</Block_CID_Serv>
+  	<Cfwd_All_Serv ua="na">No</Cfwd_All_Serv>
+  	<Cfwd_Busy_Serv ua="na">No</Cfwd_Busy_Serv>
+  	<Cfwd_No_Ans_Serv ua="na">No</Cfwd_No_Ans_Serv>
+  	<Paging_Serv ua="na">No</Paging_Serv>
+  	<Call_Park_Serv ua="na">No</Call_Park_Serv>
+  	<Call_Pick_Up_Serv ua="na">No</Call_Pick_Up_Serv>
+ 	<ACD_Login_Serv ua="na">No</ACD_Login_Serv>
+ 	<Group_Call_Pick_Up_Serv ua="na">No</Group_Call_Pick_Up_Serv>
+  	<ACD_Ext ua="na">1</ACD_Ext> <!-- options: 1/2/3/4 -->
+  	<Service_Annc_Serv ua="na">No</Service_Annc_Serv>
+  
+	<Programmable_Softkey_Enable group="Phone/Programmable_Softkeys">Yes</Programmable_Softkey_Enable>
+	<Idle_Key_List group="Phone/Programmable_Softkeys">redial|1;dir|2;psk2|3;psk1|4</Idle_Key_List>
+	<Missed_Call_Key_List group="Phone/Programmable_Softkeys">lcr|1;miss|4</Missed_Call_Key_List>
+	<Off_Hook_Key_List group="Phone/Programmable_Softkeys">redial|1;dir|5;unpark|6;pickup|7;gpickup|8;starcode|11;alpha|12</Off_Hook_Key_List>
+	<Dialing_Input_Key_List group="Phone/Programmable_Softkeys">dial|1;delchar|2;clear|3;cancel|4;left|5;right|6;starcode|7;alpha|8;dir</Dialing_Input_Key_List>
+	<Progressing_Key_List group="Phone/Programmable_Softkeys">endcall|2</Progressing_Key_List>
+	<Connected_Key_List group="Phone/Programmable_Softkeys">endcall|1;conf|2;xfer|3;toggle;crdstart;crdstop;bxfer;confLx;xferLx;park;phold;flash;</Connected_Key_List>
+	<Start-Xfer_Key_List group="Phone/Programmable_Softkeys">hold|1;endcall|2;xfer|4;toggle;</Start-Xfer_Key_List>
+	<Start-Conf_Key_List group="Phone/Programmable_Softkeys">hold|1;endcall|2;conf|3;toggle;</Start-Conf_Key_List>
+	<Conferencing_Key_List group="Phone/Programmable_Softkeys">hold|1;endcall|2;join|4</Conferencing_Key_List>
+	<Releasing_Key_List group="Phone/Programmable_Softkeys">endcall|2;</Releasing_Key_List>
+	<Hold_Key_List group="Phone/Programmable_Softkeys">resume|1;endcall|2;newcall|3;redial;dir</Hold_Key_List>
+	<Ringing_Key_List group="Phone/Programmable_Softkeys">answer|1;ignore|2;toggle|4</Ringing_Key_List>
+	<Shared_Active_Key_List group="Phone/Programmable_Softkeys">newcall|1;barge|2</Shared_Active_Key_List>
+	<Shared_Held_Key_List group="Phone/Programmable_Softkeys">resume|1;barge|2</Shared_Held_Key_List>
+	<PSK_1 group="Phone/Programmable_Softkeys">fnc=sd;ext=*76;nme=DND</PSK_1>
+	<PSK_2 group="Phone/Programmable_Softkeys">fnc=sd;ext=*72;nme=CFWD</PSK_2>
+	<!--END BEGIN PROG KEYS-->
 	
 	<Subscribe_Expires group="Attendant_Console/General">1800</Subscribe_Expires>
 	<Subscribe_Retry_Interval group="Attendant_Console/General">30</Subscribe_Retry_Interval>
@@ -165,11 +238,11 @@
 	<BLF_Held_LED group="Attendant_Console/Attendant_Key_LED_Pattern"/>
 	<Unit_1_Enable group="Attendant_Console/General">Yes</Unit_1_Enable>
 	{loop_unit1}
-	<Unit_1_Key_{$number} group="Attendant_Console/Unit_1">{$data}</Unit_1_Key_{$number}>
+	<Unit_1_Key_{$number} group="Attendant_Console/Unit_1">{$data};nme={$label}</Unit_1_Key_{$number}>
 	{/loop_unit1}
 	<Unit_2_Enable group="Attendant_Console/General">Yes</Unit_2_Enable>
 	{loop_unit2}
-	<Unit_2_Key_{$number} group="Attendant_Console/Unit_2">{$data}</Unit_2_Key_{$number}>
+	<Unit_2_Key_{$number} group="Attendant_Console/Unit_2">{$data};nme={$label}</Unit_2_Key_{$number}>
 	{/loop_unit2}
 
 	<!-- Ring tones and Cadences -->
