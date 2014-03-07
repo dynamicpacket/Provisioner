@@ -19,11 +19,8 @@
   	<Secure_Call_Serv group="Phone/Supplementary_Services">{$enable_srtp|No}</Secure_Call_Serv>
   	<Secure_Call_Setting group="User/Supplementary_Services">{$enable_srtp|No}</Secure_Call_Setting>
   	
-	<!-- Line Registration Information -->
-	{line_loop}
-	<Display_Name_{$line}_ group="SIP/SIP_Parameters" ua="na"></Display_Name_{$line}_>
-	<!-- If BLF then set this to the BLF -->
-	<Short_Name_{$line}_ group="Phone/Line_Key_{$line}" ua="na"></Short_Name_{$line}_> 
+  	<!-- SET DEFAULTS TO BLANK -->
+  	<Short_Name_1_ group="Phone/Line_Key_1" ua="na"></Short_Name_1_> 
 	<Short_Name_2_ group="Phone/Line_Key_2" ua="na"></Short_Name_2_> 
 	<Short_Name_3_ group="Phone/Line_Key_3" ua="na"></Short_Name_3_> 
 	<Short_Name_4_ group="Phone/Line_Key_4" ua="na"></Short_Name_4_>
@@ -31,6 +28,13 @@
 	<Short_Name_6_ group="Phone/Line_Key_6" ua="na"></Short_Name_6_>
 	<Short_Name_7_ group="Phone/Line_Key_7" ua="na"></Short_Name_7_>
 	<Short_Name_8_ group="Phone/Line_Key_8" ua="na"></Short_Name_8_>	
+  	
+	<!-- Line Registration Information -->
+	{line_loop}
+	<Display_Name_{$line}_ group="SIP/SIP_Parameters" ua="na"></Display_Name_{$line}_>
+	<!-- If BLF then set this to the BLF -->
+	<Short_Name_{$line}_ group="Phone/Line_Key_{$line}" ua="na">{$short_name_blank}</Short_Name_{$line}_> 
+
 	<User_ID_{$line}_ ua="na">{$username}</User_ID_{$line}_>
 	<Password_{$line}_ ua="na">{$secret}</Password_{$line}_>
 	<!-- Below set to disabled for BLF -->
@@ -42,7 +46,7 @@
 	<Dial_Plan_{$line}_ ua="na">{$dial_plan}</Dial_Plan_{$line}_>
 	<SIP_Transport_{$line}_ ua="na">{$transport}</SIP_Transport_{$line}_> <!-- options: UDP/TCP/TLS -->
 	<SIP_Port_{$line}_ group="Ext_{$line}/SIP_Settings">{$server_port}</SIP_Port_{$line}_>
-	<Register_Expires_{$line}_ group="Ext_{$line}/Proxy_and_Registration">{$server_expires|3600}</Register_Expires_{$line}_>
+	<Register_Expires_{$line}_ group="Ext_{$line}/Proxy_and_Registration">{$server_expires|120}</Register_Expires_{$line}_>
 	<Ans_Call_Without_Reg_{$line}_ ua="na">{$answer_call_without_reg|No}</Ans_Call_Without_Reg_{$line}_>
 	
 	<!-- Codec Information -->
@@ -53,11 +57,11 @@
 	<DTMF_Tx_Method_{$line}_ ua="na">INFO</DTMF_Tx_Method_{$line}_>
 	
 	<!-- Proxy Information -->
-	<Proxy_{$line}_ group="Ext_{$line}/Proxy_and_Registration">{$server_host}:{$server_port|5060}</Proxy_{$line}_>
-	<Alternate_Proxy_{$line}_ ua="na">{$server_host}:{$server_port|5060}</Alternate_Proxy_1_>
+	<Proxy_{$line}_ group="Ext_{$line}/Proxy_and_Registration">{$server1_uri}</Proxy_{$line}_>
+	<Alternate_Proxy_{$line}_ ua="na">{$server2_uri}</Alternate_Proxy_{$line}_>
 	<Use_Outbound_Proxy_{$line}_ ua="na">{$use_outbound_p|No}</Use_Outbound_Proxy_{$line}_>
 	<Outbound_Proxy_{$line}_ ua="na">{$outbound_proxy_host}</Outbound_Proxy_{$line}_>
-	<Proxy_Fallback_Intvl_{$line}_ ua="ro">{$proxy_fallback_intvl|300}</Proxy_Fallback_Intvl_{$line}_>
+	<Proxy_Fallback_Intvl_{$line}_ ua="ro">{$proxy_fallback_intvl|120}</Proxy_Fallback_Intvl_{$line}_>
 	<Proxy_Redundancy_Method_{$line}_ ua="ro">{$proxy_redundancy_method|Normal}</Proxy_Redundancy_Method_{$line}_>
 	
 	<!-- DNS SRV Information -->
