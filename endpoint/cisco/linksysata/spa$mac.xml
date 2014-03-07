@@ -17,20 +17,20 @@
 	<Password_{$line}_ ua="na">{$secret}</Password_{$line}_>
 	<Dial_Plan_{$line}_ ua="na">{$dial_plan}</Dial_Plan_{$line}_>
 	<SIP_Port_{$line}_ group="Ext_{$line}/SIP_Settings">{$server_port}</SIP_Port_{$line}_>
-	<Register_Expires_{$line}_ group="Ext_{$line}/Proxy_and_Registration">{$server_expires|3600}</Register_Expires_{$line}_>
+	<Register_Expires_{$line}_ group="Ext_{$line}/Proxy_and_Registration">{$server_expires|120}</Register_Expires_{$line}_>
 	<Ans_Call_Without_Reg_{$line}_ ua="na">{$answer_call_without_reg|No}</Ans_Call_Without_Reg_{$line}_>
 
 	<!-- Codec Information -->
 	<Preferred_Codec_{$line}_ group="Ext_{$line}/Audio_Configuration">{$first_audio_codec}</Preferred_Codec_{$line}_>
-	<Use_Pref_Codec_Only_{$line}_ group="Ext_{$line}/Audio_Configuration">No</Use_Pref_Codec_Only_{$line}_>
+	<Use_Pref_Codec_Only_{$line}_ group="Ext_{$line}/Audio_Configuration">Yes</Use_Pref_Codec_Only_{$line}_>
 	<Second_Preferred_Codec_{$line}_ group="Ext_{$line}/Audio_Configuration">{$second_audio_codec}</Second_Preferred_Codec_{$line}_>
 	<Third_Preferred_Codec_{$line}_ group="Ext_{$line}/Audio_Configuration">{$third_audio_codec}</Third_Preferred_Codec_{$line}_>
 	
 	<!-- Proxy Information -->
-	<Proxy_{$line}_ group="Ext_{$line}/Proxy_and_Registration">{$server_host}</Proxy_{$line}_>
+	<Proxy_{$line}_ group="Ext_{$line}/Proxy_and_Registration">{$server_host}:{$server_port|5060}</Proxy_{$line}_>
 	<Use_Outbound_Proxy_{$line}_ ua="na">{$use_outbound_p|No}</Use_Outbound_Proxy_{$line}_>
 	<Outbound_Proxy_{$line}_ ua="na">{$outbound_proxy_host}</Outbound_Proxy_{$line}_>
-	<Proxy_Fallback_Intvl_{$line}_ ua="ro">{$proxy_fallback_intvl|3600}</Proxy_Fallback_Intvl_{$line}_>
+	<Proxy_Fallback_Intvl_{$line}_ ua="ro">{$proxy_fallback_intvl|120}</Proxy_Fallback_Intvl_{$line}_>
 	<Proxy_Redundancy_Method_{$line}_ ua="ro">{$proxy_redundancy_method|Normal}</Proxy_Redundancy_Method_{$line}_>
 	
 	<!-- DNS SRV Information -->
@@ -81,7 +81,7 @@
 	 <Primary_NTP_Server ua="na">{$ntp}</Primary_NTP_Server>
 	 <Time_Zone  ua="na">{$timezone}</Time_Zone>
 	 <Daylight_Saving_Time_Rule ua="na">start=3/8/7/02:0:0;end=11/1/7/02:0:0;save=1</Daylight_Saving_Time_Rule>
-	 <Daylight_Saving_Time_Enable group="Regional/Miscellaneous">No</Daylight_Saving_Time_Enable>
+	 <Daylight_Saving_Time_Enable group="Regional/Miscellaneous">Yes</Daylight_Saving_Time_Enable>
 	
 	 <!-- KeyCodes -->
 	 <Call_Return_Code ua="na"> </Call_Return_Code>
@@ -140,3 +140,4 @@
 	<Speed_Dial_8 ua="rw">{$speed_dial_8}</Speed_Dial_8>
 	<Speed_Dial_9 ua="rw">{$speed_dial_9}</Speed_Dial_9>
 </flat-profile>
+
