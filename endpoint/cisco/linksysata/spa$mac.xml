@@ -41,7 +41,7 @@
 	<NAT_Mapping_Enable_{$line}_ group="Ext_{$line}/NAT_Settings">{$nat_mapping_enabled|Yes}</NAT_Mapping_Enable_{$line}_>
 	<NAT_Keep_Alive_Enable_{$line}_ group="Ext_{$line}/NAT_Settings">{$nat_keep_alive_enabled|Yes}</NAT_Keep_Alive_Enable_{$line}_>
 	
-	<Call_Waiting_Serv_{$line}_ ua="na" group="L{$line}/Supplementary_Service_Subscription">{$call_waiting_srv|No}</Call_Waiting_Serv_{$line}_>
+	<Call_Waiting_Serv_{$line}_ ua="na" group="L{$line}/Supplementary_Service_Subscription">{$call_waiting_srv|Yes}</Call_Waiting_Serv_{$line}_>
 
 	{/line_loop}
 

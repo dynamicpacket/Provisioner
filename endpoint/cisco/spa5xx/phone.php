@@ -22,6 +22,17 @@ class endpoint_cisco_spa5xx_phone extends endpoint_cisco_base {
 
         $line_data['use_dns_srv'] = (isset($line_data['transport']) && ($line_data['transport'] == "DNSSRV")) ? 'Yes' : 'No';
         
+        $s1u = (isset($line_data['server_host'])) ? $line_data['server_host'] : '';
+        $s1u .= ':';
+        $s1u .= (isset($line_data['server_port']) && strlen($line_data['server_port'])) ? $line_data['server_port'] : '5060';
+
+        $s2u = (isset($line_data['server2_host'])) ? $line_data['server2_host'] : '';
+        $s2u .= ':';
+        $s2u .= (isset($line_data['server2_port']) && strlen($line_data['server2_port'])) ? $line_data['server2_port'] : '5060';
+        
+        $line_data['server1_uri'] = ($line_data['use_dns_srv'] == 'Yes' && isset($line_data['server_srv']) && !empty($line_data['server_srv'])) ? $line_data['server_srv'] : $s1u;
+        $line_data['server2_uri'] = $s2u;
+        
         $line_data['dial_plan'] = ((isset($line_data['secret'])) && ($line_data['secret'] != "") && (isset($this->settings['dial_plan']))) ? htmlentities($this->settings['dial_plan']) : "";
 
         if (isset($this->settings['loops']['lineops'][$line])) {
@@ -30,14 +41,16 @@ class endpoint_cisco_spa5xx_phone extends endpoint_cisco_base {
             $short_name = $line_data['displaynameline'];
 
             $line_data['short_name'] = str_replace('{$count}', $line_data['line'], $short_name);
+            $line_data['short_name_blank'] = '';
 
             if (($this->settings['loops']['lineops'][$line]['keytype'] == "blf") AND ($this->settings['loops']['lineops'][$line]['blfext'] != "")) {
                 $line_data['username'] = $this->settings['loops']['lineops'][$line]['blfext'];
                 $line_data['secret'] = 'n/a';
                 $line_data['blf_ext_type'] = "Disabled";
+                $line_data['short_name_blank'] = $line_data['short_name'];
                 $line_data['share_call_appearance'] = "shared";
                 $line_data['extended_function'] = "fnc=blf+sd;sub=";
-                $line_data['extended_function'] .= preg_match('/;.*=.*@.*$/i', $this->settings['loops']['lineops'][$line]['blfext']) ? $this->settings['loops']['lineops'][$line]['blfext'] : $this->settings['loops']['lineops'][$line]['blfext'] . "@" . $this->settings['line'][0]['server_host'];
+                $line_data['extended_function'] .= preg_match('/;.*=.*@.*$/i', $this->settings['loops']['lineops'][$line]['blfext']) ? $this->settings['loops']['lineops'][$line]['blfext'] : $this->settings['loops']['lineops'][$line]['blfext'] . '@$PROXY';
             } elseif (($this->settings['loops']['lineops'][$line]['keytype'] == "xml") AND ($this->settings['loops']['lineops'][$line]['blfext'] != "")) {
                 $line_data['username'] = $this->settings['loops']['lineops'][$line]['blfext'];
                 $line_data['secret'] = 'n/a';
